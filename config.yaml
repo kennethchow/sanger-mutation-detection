@@ -1,0 +1,59 @@
+# ─── I/O ──────────────────────────────
+input_dir:  "/Users/circle/Documents/NCCS/projects/sanger-egfr-mut-identification/input"
+output_dir: "/Users/circle/Documents/NCCS/projects/sanger-egfr-mut-identification/output"
+
+# ─── Reference / BLAST DB ─────────────
+reference:
+  fasta:           "/Users/circle/Documents/NCCS/projects/sanger-egfr-mut-identification/egfr_NG_007726.3.fasta"
+  make_blast_db:    false
+  blast_db_name:    "egfr_ng007726"
+  blast_db_dir:     "/Users/circle/Documents/NCCS/projects/sanger-egfr-mut-identification/blast_dbs"
+
+# ─── BLAST PARAMETERS ─────────────────
+blast:
+  task:   "blastn-short"
+  outfmt: "5"
+  evalue: 1e-5
+
+# ─── MUTATIONS TO DETECT ──────────────
+# Add as many as you need. Types: SNV, deletion, duplication, compound.
+mutations:
+  G719A:
+    type: SNV
+    pos: 159984
+    wt: "G"
+    mut: "A"
+
+  E746_A750del:
+    type: deletion
+    start: 160741
+    end:   160755
+
+  A767_V769dup:
+    type: duplication
+    start: 167278
+    end:   167286
+
+  T790M:
+    type: SNV
+    pos: 167347
+    wt: "C"
+    mut: "T"
+
+  L858R:
+    type: SNV
+    pos: 177791
+    wt: "T"
+    mut: "G"
+
+  L858R_H870R:
+    type: compound
+    submutations:
+      - type: SNV
+        pos: 177791
+        wt: "T"
+        mut: "G"
+      - type: SNV
+        pos: 177827
+        wt: "A"
+        mut: "G"

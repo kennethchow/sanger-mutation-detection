@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post">
+  <div class="row">
+    <div class="col-md-6">
+      <h5>I/O Settings</h5>
+      <div class="mb-3">
+        <label class="form-label">Input directory</label>
+        <input name="input_dir" class="form-control"
+               value="{{ cfg.input_dir }}">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Output directory</label>
+        <input name="output_dir" class="form-control"
+               value="{{ cfg.output_dir }}">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h5>Reference &amp; BLAST DB</h5>
+      <div class="mb-3">
+        <label class="form-label">Reference FASTA</label>
+        <input name="reference_fasta" class="form-control"
+               value="{{ cfg.reference.fasta }}">
+      </div>
+      <div class="form-check mb-3">
+        <input name="make_blast_db" class="form-check-input" type="checkbox"
+               {% if cfg.reference.make_blast_db %}checked{% endif %}>
+        <label class="form-check-label">Build BLAST DB</label>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">BLAST DB name</label>
+        <input name="blast_db_name" class="form-control"
+               value="{{ cfg.reference.blast_db_name }}">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">BLAST DB directory</label>
+        <input name="blast_db_dir" class="form-control"
+               value="{{ cfg.reference.blast_db_dir }}">
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <h5>BLAST Parameters</h5>
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Task</label>
+      <input name="blast_task" class="form-control"
+             value="{{ cfg.blast.task }}">
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Outfmt</label>
+      <input name="blast_outfmt" class="form-control"
+             value="{{ cfg.blast.outfmt }}">
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">E-value</label>
+      <input name="blast_evalue" type="number" step="1e-5" class="form-control"
+             value="{{ cfg.blast.evalue }}">
+    </div>
+  </div>
+
+  <hr>
+  <h5>Mutations (YAML)</h5>
+  <textarea name="mutations_yaml" class="form-control" rows="8">{{ cfg.mutations | toyaml }}</textarea>
+  <small class="form-text text-muted">
+    Define your mutations as a YAML mapping (see examples).
+  </small>
+
+  <button type="submit" class="btn btn-success mt-3">Run Pipeline</button>
+</form>
+
+{% if log %}
+  <hr>
+  <h5>Pipeline Log</h5>
+  <pre class="bg-light p-2">{{ log }}</pre>
+{% endif %}
+
+{% if csv_ready %}
+  <a href="{{ url_for('download', filename=csv_filename) }}"
+     class="btn btn-primary mt-3">
+    Download {{ csv_filename }}
+  </a>
+{% endif %}
+{% endblock %}

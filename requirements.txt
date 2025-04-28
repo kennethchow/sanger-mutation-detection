@@ -1,0 +1,5 @@
+flask
+pyyaml
+biopython
+pandas
+matplotlib
